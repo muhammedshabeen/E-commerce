@@ -30,7 +30,7 @@ This is a Django-based e-commerce platform with features like product management
 1. Clone the repository:
    ```bash
    git clone https://github.com/muhammedshabeen/E-commerce
-   cd your-repository-name
+   cd E-commerce
    ```
 
 2. Create and activate a virtual environment:
@@ -83,18 +83,39 @@ This is a Django-based e-commerce platform with features like product management
 - Authentication needed for listing user orders
 - **GET /api/order-view-api**: List all orders.
 
+## Frontend
+
+The frontend is where customers can view and interact with products, manage their cart, and place orders. To access the frontend of the web app, use the following URL:
+
+- URL: `http://127.0.0.1:8000/`
+  
+### Features Available for Customers:
+- **View all products**: Browse through the products available in the store.
+- **Add to Cart**: Customers can add multiple items to their cart.
+- **Place Orders**: Customers can place orders and create an address module for future use.
+- **View Order Status**: Track the status of previous orders (Pending, Approved, Shipped, Delivered).
+- **Rate Products**: Customers can rate products they've purchased.
+
+
+###  Backend Admin Panel
+To manage products, orders, and users, log in to the Backend admin panel:
+
+- URL: `http://127.0.0.1:8000/super-admin/`
+- Use the superuser credentials you created during setup.
+  
+  **Login Details**:
+  - Username: `<your_superuser_username>`
+  - Password: `<your_superuser_password>`
+
+Once logged in, you can:
+- **Manage Products**: Add, edit, or delete products.
+- **View and Update Orders**: Manage order statuses (Pending, Approved, Shipped, Delivered).
+- **View Customers**: Access the list of customers and their details.
+
 
 
 ## Main Admin Panel
 
 - URL: `http://127.0.0.1:8000/admin/`
-- Use the superuser credentials you created during setup.
-
-
-## Backend Admin Panel
-
-To manage products, orders, and users, log in to the Backend admin panel:
-
-- URL: `http://127.0.0.1:8000/super-admin/`
 - Use the superuser credentials you created during setup.
 
