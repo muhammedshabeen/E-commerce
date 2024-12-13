@@ -1,0 +1,161 @@
+{% extends "backend_index/index.html" %}
+
+{% block title %}Product{% endblock %}
+
+
+{% block content %}
+<style>
+    .rounded-image {
+        width: 50px; 
+        height: 50px; 
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #ddd;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+    td a i {
+        margin-right: 10px;  /* Space between icons */
+        font-size: 20px;     /* Size of the icons */
+        transition: color 0.3s ease; /* Smooth transition for color change */
+        cursor: pointer;    /* Change cursor to pointer to indicate it's clickable */
+    }
+
+    /* Hover effect for the icons */
+    td a i:hover {
+        color: #007bff; /* Change color to blue when hovered */
+    }
+
+    /* Optional: Add color-specific styles for each action */
+    .micon.dw-eye:hover {
+        color: #28a745; /* Green for View icon on hover */
+    }
+
+    .micon.dw-edit:hover {
+        color: #17a2b8; /* Blue for Edit icon on hover */
+    }
+
+    .micon.dw-trash:hover {
+        color: #dc3545; /* Red for Delete icon on hover */
+    }   
+    
+</style>
+<div class="pd-20 card-box mb-30">
+    <div class="clearfix mb-20">
+        <div class="pull-left">
+            <h4 class="text-blue h4">Orders</h4>
+        </div>
+        <div class="pull-right">
+            {% comment %} <a href="{% url "create_product" %}" class="btn btn-primary btn-sm"> Add Product</a> {% endcomment %}
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Order Id</th>
+                <th scope="col">User</th>
+                <th scope="col">Created Date</th>
+                <th scope="col">Total Amount</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if order_objs %}
+            {% for order_obj in order_objs %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{order_obj.order_id}}</td>
+                <td>{{order_obj.user.username|default:""}}</td>
+                <td>{{order_obj.created_at|date:"d/m/Y"}}</td>
+                <td>{{order_obj.total_amount}}</td>
+                <td>
+                    <span class="badge 
+                        {% if order_obj.status == 'Shipped' %}badge-secondary{% elif order_obj.status == 'Pending' %}badge-warning
+                        {% elif order_obj.status == 'Approved' %}badge-primary{% else %}badge-success{% endif %}" 
+                        id="status-badge-{{ order_obj.id }}">
+                        {{ order_obj.status }}
+                    </span><br><br>
+                    <select class="form-control status-select" data-order-id="{{ order_obj.id }}">
+                        <option value="Pending" {% if order_obj.status == 'Pending' %}selected{% endif %}>Pending</option>
+                        <option value="Approved" {% if order_obj.status == 'Approved' %}selected{% endif %}>Approved</option>
+                        <option value="Shipped" {% if order_obj.status == 'Shipped' %}selected{% endif %}>Shipped</option>
+                        <option value="Delivered" {% if order_obj.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                    </select>
+                </td>
+                <td>
+                    <a href="{% url 'order_view_detail' order_obj.order_id %}"><i class="micon dw dw-eye"></i></a>
+                </td>
+                
+            </tr>
+            {% endfor %}
+            {% else  %}
+            <tr>
+                <td colspan="5" class="text-center"><h4>Not Found</h4></td>
+            </tr>
+            {% endif %}
+            
+        </tbody>
+    </table>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const statusSelects = document.querySelectorAll(".status-select");
+
+        statusSelects.forEach(select => {
+            select.addEventListener("change", function() {
+                const orderId = this.dataset.orderId;
+                const newStatus = this.value;
+
+                fetch("{% url 'update_order_status' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+                    body: JSON.stringify({
+                        order_id: orderId,
+                        status: newStatus
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update badge text
+                        const badge = document.getElementById(`status-badge-${orderId}`);
+                        badge.textContent = newStatus;
+
+                        // Update badge color
+                        badge.className = "badge";
+                        if (newStatus === "Pending") {
+                            badge.classList.add("badge-warning");
+                        } else if (newStatus === "Approved") {
+                            badge.classList.add("badge-primary");
+                        } else if (newStatus === "Shipped") {
+                            badge.classList.add("badge-secondary");
+                        } else if (newStatus === "Delivered") {
+                            badge.classList.add("badge-success");
+                        }
+
+                        //alert("Order status updated successfully.");
+                    } else {
+                        alert("Failed to update order status.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred.");
+                });
+            });
+        });
+    });
+</script>
+
+
+
+{% endblock%}

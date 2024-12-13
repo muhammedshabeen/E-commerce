@@ -1,0 +1,185 @@
+{% extends "frontend_index/index.html" %}
+{% load custom_tags %}
+{% block title %} Cart {% endblock %}
+
+{% block contents %}
+
+
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Shopping Cart</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="{% url 'home' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="">Cart</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+<!--================Cart Area =================-->
+<section class="cart_area">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
+                {% if cart_objs %}
+                <form method="POST" action="{% url 'update_cart' %}">
+                {% csrf_token %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {% for cart_obj in cart_objs %}
+                        <tr>
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img src="img/cart.jpg" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <p>{{cart_obj.product.title}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>{{cart_obj.product.price}}</h5>
+                            </td>
+                            <td>
+                                <div class="product_count">
+                                    <input type="number" min="1" name="qty_{{ cart_obj.id }}" maxlength="{{ cart_obj.product.stock }}" value="{{ cart_obj.quantity }}" title="Quantity:" class="input-text qty">
+                                    
+                                </div>
+                            </td>
+                            <td>
+                                <h5>₹{% cart_single_object cart_obj %}</h5>
+                            </td>
+                            <td>
+                                <h5><a href="{% url 'delete_cart_item' cart_obj.id %}" class="genric-btn danger circle">Delete</a></h5>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        
+                        
+                        
+                        <tr class="bottom_button">
+                            <td>
+                                <button type="submit" style="cursor:pointer;" class="gray_btn">Update Cart</button>
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <div class="cupon_text d-flex align-items-center">
+                                    
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        </form>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+                                <td></td>
+                            </td>
+                            <td>
+                                <h5>Subtotal</h5>
+                            </td>
+                            <td>
+                                <h5>₹{{user_cart_total}} </h5>
+                            </td>
+                            
+                        </tr>
+
+                        {% if address %}
+                        <tr>
+                            <td colspan="5">
+                                <div class="address-details">
+                                    <h5>Delivery Address</h5>
+                                    <p>{{ address.street }}, {{ address.city }}, {{ address.state }}, {{ address.country }}</p>
+                                    <p>Pin Code: {{ address.pin_code }}</p>
+                                    <p>Phone: {{ address.phone_no }}</p>
+                                    <a href="{% url 'update_address' %}" class="genric-btn info circle">Edit Address</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5">
+                                <form method="POST" action="{% url 'add_address' %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="street">Street</label>
+                                        <input type="text" name="street" id="street" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="city">City</label>
+                                        <input type="text" name="city" id="city" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="state">State</label>
+                                        <input type="text" name="state" id="state" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pin_code">Pin Code</label>
+                                        <input type="text" name="pin_code" id="pin_code" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="country">Country</label>
+                                        <input type="text" name="country" id="country" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone_no">Phone Number</label>
+                                        <input type="text" name="phone_no" id="phone_no" class="form-control" required>
+                                    </div>
+                                    <button type="submit" class="primary-btn">Add Address</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        
+                        <tr class="out_button_area">
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                            <td></td>
+                            </td>
+                            <td>
+                                <div class="checkout_btn_inner d-flex align-items-center">
+                                    <a class="gray_btn" href="{% url 'home' %}">Continue Shopping</a>
+                                    <a class="primary-btn" href="{% url 'checkout' %}">Proceed to checkout</a>
+                                </div>
+                            </td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+                {% else %}
+                <h1>Cart is Empty</h1>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

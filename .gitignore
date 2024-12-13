@@ -1,0 +1,53 @@
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+
+# Django-specific files
+*.log
+*.pot
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+*.log
+*.bak
+*.swp
+
+# Media and static files
+/media/
+
+# Environment and virtual environment files
+*.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+
+# MySQL and PostgreSQL databases
+*.sql
+*.sqlite3
+
+# Coverage reports and other temporary files
+.coverage
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Django migrations (optional, if you prefer not to track migrations in version control)
+migrations/
+
+# IDEs and editors
+.idea/
+.vscode/
+
+# MacOS specific
+.DS_Store
+
+# Windows specific
+Thumbs.db
+
+# Python virtual environments (optional)
+*.env

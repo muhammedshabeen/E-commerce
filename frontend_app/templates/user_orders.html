@@ -1,0 +1,170 @@
+
+{% extends "frontend_index/index.html" %}
+{% load custom_tags %}
+{% block title %}Orders{% endblock %}
+
+{% load static %}
+{% block contents %}
+<style>
+    /* user_orders.css */
+.user-orders {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.order-table th, .order-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.order-table th {
+    background-color:rgb(255, 125, 3);
+    color: white;
+    font-weight: bold;
+}
+
+.order-table td {
+    background-color: #f9f9f9;
+}
+
+.order-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.order-table ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.order-table ul li {
+    margin-bottom: 5px;
+}
+
+.order-table td ul {
+    padding-left: 20px;
+}
+
+.order-table td,
+.order-table th {
+    font-size: 14px;
+}
+
+p {
+    font-size: 16px;
+    color: #333;
+}
+
+.order-address {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 10px;
+    color: #555;
+}
+
+@media screen and (max-width: 768px) {
+    .order-table th, .order-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+    
+    .order-table ul {
+        padding-left: 10px;
+    }
+}
+
+.product-image {
+    width: 50px;  /* Set the width of the image */
+    height: 50px; /* Set the height of the image */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+}
+
+.rounded-circle {
+    border-radius: 50%; /* Makes the image circular */
+}
+
+</style>
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Confirmation</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="{% url 'home' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="category.html">Confirmation</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+<!--================Order Details Area =================-->
+<section class="order_details section_gap">
+    <div class="container">
+        <!-- user_orders.html -->
+<div class="user-orders">
+    <h2>Your Orders</h2>
+    
+    {% if orders %}
+    <table class="order-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Total Amount</th>
+                <th>Items</th>
+                <th>Shipping Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.order_id }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>₹{{ order.total_amount }}</td>
+                <td>
+                    <ul>
+                        {% for item in order.items.all %}
+                        <li>
+                            <div class="order-item">
+                                <!-- Display product image -->
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" class="product-image rounded-circle">
+
+                                <!-- Product details -->
+                                <span>{{ item.product.title }} - {{ item.quantity }} x ₹{{ item.price }} = ₹{{ item.quantity|multiply:item.price }}</span>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>{{ order.address }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>You don't have any orders yet.</p>
+    {% endif %}
+</div>
+
+    </div>
+    
+</section>
+{% endblock %}

@@ -1,0 +1,77 @@
+
+{% extends "frontend_index/index.html" %}
+
+{% block title %}Update Address{% endblock %}
+{% load static %}
+{% block contents %}
+<br><br><br><br>
+<section class="product_description_area">
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
+                 aria-selected="false">Update Address</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            
+            
+            <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+                <div class="row">
+                    
+                    <div class="col-lg-12">
+                        <div class="review_box">
+                            <form class="row contact_form" action="{% url 'update_address' %}" method="post" id="addressForm" novalidate="novalidate">
+                                {% csrf_token %}
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="street" name="street" placeholder="Street" value="{{ address.street }}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Street'" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="city" name="city" placeholder="City" value="{{ address.city }}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'City'" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="state" name="state" placeholder="State" value="{{ address.state }}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'State'" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="pin_code" name="pin_code" placeholder="Pin Code" value="{{ address.pin_code }}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Pin Code'" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="country" name="country" placeholder="Country" value="{{ address.country }}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Country'" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="number" 
+                                        class="form-control" 
+                                        id="phone_no" 
+                                        name="phone_no" 
+                                        placeholder="Phone Number" 
+                                        value="{{ address.phone_no }}" 
+                                        onfocus="this.placeholder = ''" 
+                                        onblur="this.placeholder = 'Phone Number'" 
+                                        required
+                                        oninput="if(this.value.length > 12) this.value = this.value.slice(0, 12);">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-right">
+                                    <button type="submit" value="submit" class="primary-btn">Update Address</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
