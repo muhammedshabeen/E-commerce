@@ -40,6 +40,12 @@
     }   
     
 </style>
+<div class="order-user-info mb-30">
+    <h5 class="text-blue">Order Details</h5><br>
+    <p><strong>User:</strong> {{ order_obj.user.username }}</p>
+    <p><strong>Email:</strong> {{ order_obj.user.email }}</p>
+    <p><strong>Shipping Address:</strong> {{ order_obj.address }}</p>
+</div>
 <div class="pd-20 card-box mb-30">
     <div class="clearfix mb-20">
         <div class="pull-left">

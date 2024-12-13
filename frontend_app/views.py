@@ -86,7 +86,7 @@ def product_detail(request,slug):
         "product_obj":product_obj,
         "reviews_objs":reviews,
         "form" : ReviewForm(),
-        "overall_rating":overall_rating,
+        "overall_rating":round(overall_rating,1),
         "reviews_count":reviews.count()
         }
         return render(request,'product_details.html',context)
