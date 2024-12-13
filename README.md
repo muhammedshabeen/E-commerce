@@ -29,7 +29,7 @@ This is a Django-based e-commerce platform with features like product management
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/your-repository-name.git
+   git clone https://github.com/muhammedshabeen/E-commerce
    cd your-repository-name
    ```
 
@@ -42,7 +42,7 @@ This is a Django-based e-commerce platform with features like product management
 3. Install the dependencies:
    ```bash
    pip install -r requirements.txt
-   create a database in postgres
+   setup a database connection using postgres
    ```
 
 4. Apply the database migrations:
@@ -80,13 +80,21 @@ This is a Django-based e-commerce platform with features like product management
 
 
 ### Orders
-
+- Authentication needed for listing user orders
 - **GET /api/order-view-api**: List all orders.
 
-## Admin Panel
 
-To manage products, orders, and users, log in to the Django admin panel:
+
+## Main Admin Panel
 
 - URL: `http://127.0.0.1:8000/admin/`
+- Use the superuser credentials you created during setup.
+
+
+## Backend Admin Panel
+
+To manage products, orders, and users, log in to the Backend admin panel:
+
+- URL: `http://127.0.0.1:8000/super-admin/`
 - Use the superuser credentials you created during setup.
 
